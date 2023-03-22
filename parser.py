@@ -11,6 +11,6 @@ def Parse():
         description = ''
         for data in block:
             description = data.text
-            file.write(description)
+            file.write(description.strip() + "\n")
         break
     file.close()
