@@ -2,15 +2,14 @@ from bs4 import BeautifulSoup
 import requests
 
 def Parse():
-    url = "https://www.omgtu.ru"
-    page= requests.get(url)
-    soup = BeautifulSoup(page.text, "html.parser")
-    file = open("output.txt", "w")
-    while True:
+    BaseUrl = "https://www.omgtu.ru/l/?PAGEN_1={}"
+    file = open("output.txt", "w", encoding='utf-8')
+    for PageNumber in range(1, 158):
+        url = BaseUrl.format(PageNumber)
+        page = requests.get(url)
+        soup = BeautifulSoup(page.text, "html.parser")
         block = soup.findAll('h3', class_='news-card__title')
-        description = ''
         for data in block:
             description = data.text
             file.write(description.strip() + "\n")
-        break
     file.close()
