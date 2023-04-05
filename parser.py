@@ -1,13 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
 
-def FileWrite(str):
-    file = open("output.txt", "w", encoding='utf-8')
+def FileWrite(str, file):
     file.write(str)
-    file.close()
 
 def Parse():
     baseUrl = "https://www.omgtu.ru/l/?PAGEN_1={}"
+    file = open("output.txt", "w", encoding='utf-8')
     for pageNumber in range(1, 158):
         url = baseUrl.format(pageNumber)
         page = requests.get(url)
@@ -15,6 +14,6 @@ def Parse():
         block = soup.findAll('h3', class_='news-card__title')
         for data in block:
             description = data.text
-            FileWrite(description.strip() + "\n")
+            FileWrite(description.strip() + "\n", file)
     file.close()
 
